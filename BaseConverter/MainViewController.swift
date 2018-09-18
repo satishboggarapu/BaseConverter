@@ -12,15 +12,24 @@ import PinLayout
 class MainViewController: UIViewController {
 
     //MARK: UIElements
-    private var decimalButton: UIButton!
-    private var decimalLabel: UILabel!
-    private var binaryButton: UIButton!
-    private var binaryLabel: UILabel!
-    private var hexButton: UIButton!
-    private var hexLabel: UILabel!
-    private var octButton: UIButton!
-    private var octLabel: UILabel!
 
+    // base buttons
+    private var decimalButton: UIButton!
+    private var binaryButton: UIButton!
+    private var hexButton: UIButton!
+    private var octButton: UIButton!
+    // base labels
+    private var decimalLabel: UILabel!
+    private var binaryLabel: UILabel!
+    private var hexLabel: UILabel!
+    private var octLabel: UILabel!
+    // hex letters
+    private var aDigitButton: UIButton!
+    private var bDigitButton: UIButton!
+    private var cDigitButton: UIButton!
+    private var dDigitButton: UIButton!
+    private var eDigitButton: UIButton!
+    private var fDigitButton: UIButton!
 
 
     //MARK: Attributes
@@ -36,17 +45,27 @@ class MainViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let baseButtonSize: CGFloat = (view.frame.height - Helper.getStatusBarHeight()) / 9.0
+        let rowHeight: CGFloat = (view.frame.height - Helper.getStatusBarHeight()) / 9.0
+        let sixButtonRowWidth: CGFloat = view.frame.width / 6.0
 
-        // view constraints
-        decimalButton.pin.left(to: view.edge.left).top(to: view.edge.top).marginTop(Helper.getStatusBarHeight()).width(baseButtonSize).height(baseButtonSize)
-        binaryButton.pin.left(to: view.edge.left).top(to: decimalButton.edge.bottom).width(baseButtonSize).height(baseButtonSize)
-        hexButton.pin.left(to: view.edge.left).top(to: binaryButton.edge.bottom).width(baseButtonSize).height(baseButtonSize)
-        octButton.pin.left(to: view.edge.left).top(to: hexButton.edge.bottom).width(baseButtonSize).height(baseButtonSize)
-        decimalLabel.pin.left(to: decimalButton.edge.right).right(to: view.edge.right).top(to: view.edge.top).height(baseButtonSize).marginRight(4)
-        binaryLabel.pin.left(to: binaryButton.edge.right).right(to: view.edge.right).top(to: decimalLabel.edge.bottom).height(baseButtonSize).marginRight(4)
-        hexLabel.pin.left(to: hexButton.edge.right).right(to: view.edge.right).top(to: binaryLabel.edge.bottom).height(baseButtonSize).marginRight(4)
-        octLabel.pin.left(to: octButton.edge.right).right(to: view.edge.right).top(to: hexLabel.edge.bottom).height(baseButtonSize).marginRight(4)
+        // base buttons
+        decimalButton.pin.left(to: view.edge.left).top(to: view.edge.top).marginTop(Helper.getStatusBarHeight()).width(rowHeight).height(rowHeight)
+        binaryButton.pin.left(to: view.edge.left).top(to: decimalButton.edge.bottom).width(rowHeight).height(rowHeight)
+        hexButton.pin.left(to: view.edge.left).top(to: binaryButton.edge.bottom).width(rowHeight).height(rowHeight)
+        octButton.pin.left(to: view.edge.left).top(to: hexButton.edge.bottom).width(rowHeight).height(rowHeight)
+        // base labels
+        decimalLabel.pin.left(to: decimalButton.edge.right).right(to: view.edge.right).top(to: view.edge.top).height(rowHeight).marginRight(4)
+        binaryLabel.pin.left(to: binaryButton.edge.right).right(to: view.edge.right).top(to: decimalLabel.edge.bottom).height(rowHeight).marginRight(4)
+        hexLabel.pin.left(to: hexButton.edge.right).right(to: view.edge.right).top(to: binaryLabel.edge.bottom).height(rowHeight).marginRight(4)
+        octLabel.pin.left(to: octButton.edge.right).right(to: view.edge.right).top(to: hexLabel.edge.bottom).height(rowHeight).marginRight(4)
+        // hex letters
+        aDigitButton.pin.left(to: view.edge.left).top(to: octButton.edge.bottom).width(sixButtonRowWidth).height(rowHeight)
+        bDigitButton.pin.left(to: aDigitButton.edge.right).top(to: octButton.edge.bottom).width(sixButtonRowWidth).height(rowHeight)
+        cDigitButton.pin.left(to: bDigitButton.edge.right).top(to: octButton.edge.bottom).width(sixButtonRowWidth).height(rowHeight)
+        dDigitButton.pin.left(to: cDigitButton.edge.right).top(to: octButton.edge.bottom).width(sixButtonRowWidth).height(rowHeight)
+        eDigitButton.pin.left(to: dDigitButton.edge.right).top(to: octButton.edge.bottom).width(sixButtonRowWidth).height(rowHeight)
+        fDigitButton.pin.left(to: eDigitButton.edge.right).right(to: view.edge.right).top(to: octButton.edge.bottom).height(rowHeight)
+
     }
 
     // MARK: Initializer Functions
@@ -55,6 +74,7 @@ class MainViewController: UIViewController {
         setupNavigationBar()
         setupBaseButtons()
         setupBaseLabels()
+        setupHexLetterButtons()
     }
 
     private func setupNavigationBar() {
@@ -102,25 +122,77 @@ class MainViewController: UIViewController {
         decimalLabel.textColor = textColor
         decimalLabel.text = "0"
         decimalLabel.textAlignment = .right
+        decimalLabel.contentMode = .center
         view.addSubview(decimalLabel)
 
         binaryLabel = UILabel()
         binaryLabel.textColor = textColor
         binaryLabel.text = "0"
         binaryLabel.textAlignment = .right
+        binaryLabel.contentMode = .center
         view.addSubview(binaryLabel)
 
         hexLabel = UILabel()
         hexLabel.textColor = textColor
         hexLabel.text = "0"
         hexLabel.textAlignment = .right
+        hexLabel.contentMode = .center
         view.addSubview(hexLabel)
 
         octLabel = UILabel()
         octLabel.textColor = textColor
         octLabel.text = "0"
         octLabel.textAlignment = .right
+        octLabel.contentMode = .center
         view.addSubview(octLabel)
+    }
+
+    private func setupHexLetterButtons() {
+        let textColor: UIColor = .white
+        let backgroundColor: UIColor = .gray
+        let font: UIFont = UIFont(name: "Avenir-Black", size: 18)!
+
+        aDigitButton = UIButton()
+        aDigitButton.setTitle("A", for: .normal)
+        aDigitButton.setTitleColor(textColor, for: .normal)
+        aDigitButton.backgroundColor = backgroundColor
+        aDigitButton.titleLabel?.font = font
+        view.addSubview(aDigitButton)
+
+        bDigitButton = UIButton()
+        bDigitButton.setTitle("B", for: .normal)
+        bDigitButton.setTitleColor(textColor, for: .normal)
+        bDigitButton.backgroundColor = backgroundColor
+        bDigitButton.titleLabel?.font = font
+        view.addSubview(bDigitButton)
+
+        cDigitButton = UIButton()
+        cDigitButton.setTitle("C", for: .normal)
+        cDigitButton.setTitleColor(textColor, for: .normal)
+        cDigitButton.backgroundColor = backgroundColor
+        cDigitButton.titleLabel?.font = font
+        view.addSubview(cDigitButton)
+
+        dDigitButton = UIButton()
+        dDigitButton.setTitle("D", for: .normal)
+        dDigitButton.setTitleColor(textColor, for: .normal)
+        dDigitButton.backgroundColor = backgroundColor
+        dDigitButton.titleLabel?.font = font
+        view.addSubview(dDigitButton)
+
+        eDigitButton = UIButton()
+        eDigitButton.setTitle("E", for: .normal)
+        eDigitButton.setTitleColor(textColor, for: .normal)
+        eDigitButton.backgroundColor = backgroundColor
+        eDigitButton.titleLabel?.font = font
+        view.addSubview(eDigitButton)
+
+        fDigitButton = UIButton()
+        fDigitButton.setTitle("F", for: .normal)
+        fDigitButton.setTitleColor(textColor, for: .normal)
+        fDigitButton.backgroundColor = backgroundColor
+        fDigitButton.titleLabel?.font = font
+        view.addSubview(fDigitButton)
     }
 
 }
