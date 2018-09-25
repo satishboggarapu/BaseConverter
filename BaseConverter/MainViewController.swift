@@ -9,6 +9,7 @@
 import UIKit
 import PinLayout
 import MaterialComponents
+import GoogleMobileAds
 
 class MainViewController: UIViewController {
 
@@ -24,6 +25,10 @@ class MainViewController: UIViewController {
     private var binaryLabel: UILabel!
     private var hexLabel: UILabel!
     private var octLabel: UILabel!
+    private var decimalLabelScrollView: UIScrollView!
+    private var binaryLabelScrollView: UIScrollView!
+    private var hexLabelScrollView: UIScrollView!
+    private var octLabelScrollView: UIScrollView!
     // hex letters
     private var aDigitButton: MDCButton!
     private var bDigitButton: MDCButton!
@@ -42,21 +47,16 @@ class MainViewController: UIViewController {
     private var sevenDigitButton: MDCButton!
     private var eightDigitButton: MDCButton!
     private var nineDigitButton: MDCButton!
-//    private var periodDigitButton: MDCButton!
     // operators and others
     private var delButton: MDCButton!
     private var acButton: MDCButton!
-//    private var multiplyButton: MDCButton!
-//    private var divideButton: MDCButton!
-//    private var addButton: MDCButton!
-//    private var subtractButton: MDCButton!
-//    private var equalsButton: MDCButton!
+    // ad view
+    var adBannerView: GADBannerView!
 
     //MARK: Attributes
 
     var activeBase: Int = 0
-    var firstNumber: String = ""
-    var secondNumber: String = ""
+    var currentNumber: String = ""
     var operation: Int = 0
 
     let textColor: UIColor = .white
@@ -93,10 +93,10 @@ class MainViewController: UIViewController {
         hexButton.pin.left(to: view.edge.left).top(to: binaryButton.edge.bottom).width(rowHeight).height(rowHeight).marginTop(1).marginBottom(1)
         octButton.pin.left(to: view.edge.left).top(to: hexButton.edge.bottom).width(rowHeight).height(rowHeight).marginTop(1).marginBottom(1)
         // base labels
-        decimalLabel.pin.left(to: decimalButton.edge.right).right(to: view.edge.right).top(to: view.edge.top).height(rowHeight).marginRight(4).marginTop(Helper.getStatusBarHeight())
-        binaryLabel.pin.left(to: binaryButton.edge.right).right(to: view.edge.right).top(to: decimalLabel.edge.bottom).height(rowHeight).marginRight(4)
-        hexLabel.pin.left(to: hexButton.edge.right).right(to: view.edge.right).top(to: binaryLabel.edge.bottom).height(rowHeight).marginRight(4)
-        octLabel.pin.left(to: octButton.edge.right).right(to: view.edge.right).top(to: hexLabel.edge.bottom).height(rowHeight).marginRight(4)
+        decimalLabelScrollView.pin.left(to: decimalButton.edge.right).right(to: view.edge.right).top(to: view.edge.top).height(rowHeight).marginRight(4).marginTop(Helper.getStatusBarHeight())
+        binaryLabelScrollView.pin.left(to: binaryButton.edge.right).right(to: view.edge.right).top(to: decimalLabelScrollView.edge.bottom).height(rowHeight).marginRight(4)
+        hexLabelScrollView.pin.left(to: hexButton.edge.right).right(to: view.edge.right).top(to: binaryLabelScrollView.edge.bottom).height(rowHeight).marginRight(4)
+        octLabelScrollView.pin.left(to: octButton.edge.right).right(to: view.edge.right).top(to: hexLabelScrollView.edge.bottom).height(rowHeight).marginRight(4)
         // 0-9 digits , .
         sevenDigitButton.pin.left(to: view.edge.left).top(to: octButton.edge.bottom).width(fiveButtonRowWidth).height(rowHeight).marginTop(1).marginBottom(1).marginRight(1)
         eightDigitButton.pin.left(to: sevenDigitButton.edge.right).top(to: octButton.edge.bottom).width(fiveButtonRowWidth).height(rowHeight).marginTop(1).marginBottom(1).marginLeft(1).marginRight(1)
@@ -107,23 +107,34 @@ class MainViewController: UIViewController {
         oneDigitButton.pin.left(to: view.edge.left).top(to: fourDigitButton.edge.bottom).width(fiveButtonRowWidth).height(rowHeight).marginTop(1).marginBottom(1).marginRight(1)
         twoDigitButton.pin.left(to: oneDigitButton.edge.right).top(to: fiveDigitButton.edge.bottom).width(fiveButtonRowWidth).height(rowHeight).marginTop(1).marginBottom(1).marginLeft(1).marginRight(1)
         threeDigitButton.pin.left(to: twoDigitButton.edge.right).top(to: sixDigitButton.edge.bottom).width(fiveButtonRowWidth).height(rowHeight).marginTop(1).marginBottom(1).marginLeft(1).marginRight(1)
-        zeroDigitButton.pin.left(to: view.edge.left).top(to: oneDigitButton.edge.bottom).bottom(to: view.edge.bottom).width(zeroButtonWidth).marginTop(1).marginRight(1)
-//        periodDigitButton.pin.left(to: zeroDigitButton.edge.right).top(to: threeDigitButton.edge.bottom).bottom(to: view.edge.bottom).width(fiveButtonRowWidth).marginTop(1).marginLeft(1).marginRight(1)
+        zeroDigitButton.pin.left(to: view.edge.left).top(to: oneDigitButton.edge.bottom).height(fiveButtonRowWidth).width(zeroButtonWidth).marginTop(1).marginRight(1)
         // other buttons
         delButton.pin.left(to: nineDigitButton.edge.right).top(to: octButton.edge.bottom).width(fiveButtonRowWidth).height(rowHeight).marginTop(1).marginBottom(1).marginLeft(1).marginRight(1)
         acButton.pin.left(to: delButton.edge.right).right(to: view.edge.right).top(to: octButton.edge.bottom).height(rowHeight).marginTop(1).marginBottom(1).marginLeft(1)
-//        multiplyButton.pin.left(to: sixDigitButton.edge.right).top(to: delButton.edge.bottom).width(fiveButtonRowWidth).height(rowHeight).marginTop(1).marginBottom(1).marginLeft(1).marginRight(1)
-//        divideButton.pin.left(to: multiplyButton.edge.right).right(to: view.edge.right).top(to: acButton.edge.bottom).height(rowHeight).marginTop(1).marginBottom(1).marginLeft(1)
-//        addButton.pin.left(to: threeDigitButton.edge.right).top(to: multiplyButton.edge.bottom).width(fiveButtonRowWidth).height(rowHeight).marginTop(1).marginBottom(1).marginLeft(1).marginRight(1)
-//        subtractButton.pin.left(to: addButton.edge.right).right(to: view.edge.right).top(to: divideButton.edge.bottom).height(rowHeight).marginTop(1).marginBottom(1).marginLeft(1)
-//        equalsButton.pin.left(to: periodDigitButton.edge.right).right(to: view.edge.right).top(to: threeDigitButton.edge.bottom).bottom(to: view.edge.bottom).marginTop(1).marginLeft(1)
         // hex letters
         aDigitButton.pin.left(to: sixDigitButton.edge.right).top(to: delButton.edge.bottom).width(fiveButtonRowWidth).height(rowHeight).marginTop(1).marginBottom(1).marginRight(1).marginLeft(1)
         bDigitButton.pin.left(to: aDigitButton.edge.right).right(to: view.edge.right).top(to: acButton.edge.bottom).height(rowHeight).marginTop(1).marginBottom(1).marginLeft(1)
         cDigitButton.pin.left(to: threeDigitButton.edge.right).top(to: aDigitButton.edge.bottom).width(fiveButtonRowWidth).height(rowHeight).marginTop(1).marginBottom(1).marginLeft(1).marginRight(1)
         dDigitButton.pin.left(to: cDigitButton.edge.right).right(to: view.edge.right).top(to: bDigitButton.edge.bottom).height(rowHeight).marginTop(1).marginBottom(1).marginLeft(1)
-        eDigitButton.pin.left(to: zeroDigitButton.edge.right).top(to: cDigitButton.edge.bottom).bottom(to: view.edge.bottom).width(fiveButtonRowWidth).marginTop(1).marginLeft(1).marginRight(1)
-        fDigitButton.pin.left(to: eDigitButton.edge.right).right(to: view.edge.right).top(to: dDigitButton.edge.bottom).bottom(to: view.edge.bottom).marginTop(1).marginLeft(1)
+        eDigitButton.pin.left(to: zeroDigitButton.edge.right).top(to: cDigitButton.edge.bottom).height(fiveButtonRowWidth).width(fiveButtonRowWidth).marginTop(1).marginLeft(1).marginRight(1)
+        fDigitButton.pin.left(to: eDigitButton.edge.right).right(to: view.edge.right).top(to: dDigitButton.edge.bottom).height(fiveButtonRowWidth).marginTop(1).marginLeft(1)
+        // ad view
+        adBannerView.pin.left(to: view.edge.left).right(to: view.edge.right).top(to: zeroDigitButton.edge.bottom).bottom(to: view.edge.bottom).marginTop(1)
+
+        let decimalSVWidth = (decimalLabel.intrinsicContentSize.width > decimalLabelScrollView.frame.width) ? decimalLabel.intrinsicContentSize.width : decimalLabelScrollView.frame.width
+        let binarySVWidth = (binaryLabel.intrinsicContentSize.width > binaryLabelScrollView.frame.width) ? binaryLabel.intrinsicContentSize.width : binaryLabelScrollView.frame.width
+        let hexSVWidth = (hexLabel.intrinsicContentSize.width > hexLabelScrollView.frame.width) ? hexLabel.intrinsicContentSize.width : hexLabelScrollView.frame.width
+        let octSVWidth = (octLabel.intrinsicContentSize.width > octLabelScrollView.frame.width) ? octLabel.intrinsicContentSize.width : octLabelScrollView.frame.width
+
+        decimalLabel.pin.all().width(decimalSVWidth)
+        binaryLabel.pin.all().width(binarySVWidth)
+        hexLabel.pin.all().width(hexSVWidth)
+        octLabel.pin.all().width(octSVWidth)
+
+        decimalLabelScrollView.contentSize = CGSize(width: decimalSVWidth, height: rowHeight)
+        binaryLabelScrollView.contentSize = CGSize(width: binarySVWidth, height: rowHeight)
+        hexLabelScrollView.contentSize = CGSize(width: hexSVWidth, height: rowHeight)
+        octLabelScrollView.contentSize = CGSize(width: octSVWidth, height: rowHeight)
 
     }
 
@@ -131,12 +142,12 @@ class MainViewController: UIViewController {
 
     private func setupView() {
         setupNavigationBar()
-//        setupGradientBackground()
         setupBaseButtons()
         setupBaseLabels()
         setupHexLetterButtons()
         setupNormalDigitButtons()
         setupOtherButtons()
+        setupAdBanner()
 
         view.backgroundColor = UIColor(hex: 0x161616)
     }
@@ -145,16 +156,12 @@ class MainViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
-    private func setupGradientBackground() {
-        let colorTop =  UIColor(hex: 0x1EAE9C).cgColor
-        let colorBottom = UIColor(hex: 0x000021).cgColor
-
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [ colorTop, colorBottom]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 1)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 0)
-        gradientLayer.frame = view.frame
-        view.layer.insertSublayer(gradientLayer, at: 0)
+    private func setupAdBanner() {
+        adBannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        adBannerView.adUnitID = BANNER_AD_ID
+        adBannerView.delegate = self
+        adBannerView.rootViewController = self
+        view.addSubview(adBannerView)
     }
 
     private func setupBaseButtons() {
@@ -165,7 +172,7 @@ class MainViewController: UIViewController {
         decimalButton.setBackgroundColor(backgroundColor, for: .normal)
         decimalButton.setBackgroundColor(baseButtonBackgroundColor, for: .selected)
         decimalButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        decimalButton.titleLabel?.font = font
+        decimalButton.setTitleFont(font, for: .normal)
         decimalButton.tag = 0
         decimalButton.addTarget(self, action: #selector(baseButtonAction(_:)), for: .touchUpInside)
         view.addSubview(decimalButton)
@@ -176,7 +183,7 @@ class MainViewController: UIViewController {
         binaryButton.setBackgroundColor(backgroundColor, for: .normal)
         binaryButton.setBackgroundColor(baseButtonBackgroundColor, for: .selected)
         binaryButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        binaryButton.titleLabel?.font = font
+        binaryButton.setTitleFont(font, for: .normal)
         binaryButton.tag = 1
         binaryButton.addTarget(self, action: #selector(baseButtonAction(_:)), for: .touchUpInside)
         view.addSubview(binaryButton)
@@ -187,7 +194,7 @@ class MainViewController: UIViewController {
         hexButton.setBackgroundColor(backgroundColor, for: .normal)
         hexButton.setBackgroundColor(baseButtonBackgroundColor, for: .selected)
         hexButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        hexButton.titleLabel?.font = font
+        hexButton.setTitleFont(font, for: .normal)
         hexButton.tag = 2
         hexButton.addTarget(self, action: #selector(baseButtonAction(_:)), for: .touchUpInside)
         view.addSubview(hexButton)
@@ -198,20 +205,37 @@ class MainViewController: UIViewController {
         octButton.setBackgroundColor(backgroundColor, for: .normal)
         octButton.setBackgroundColor(baseButtonBackgroundColor, for: .selected)
         octButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        octButton.titleLabel?.font = font
+        octButton.setTitleFont(font, for: .normal)
         octButton.tag = 3
         octButton.addTarget(self, action: #selector(baseButtonAction(_:)), for: .touchUpInside)
         view.addSubview(octButton)
     }
 
     private func setupBaseLabels() {
+        decimalLabelScrollView = UIScrollView()
+        decimalLabelScrollView.alwaysBounceHorizontal = false
+        view.addSubview(decimalLabelScrollView)
+
+        binaryLabelScrollView = UIScrollView()
+        binaryLabelScrollView.alwaysBounceHorizontal = false
+        view.addSubview(binaryLabelScrollView)
+
+        hexLabelScrollView = UIScrollView()
+        hexLabelScrollView.alwaysBounceHorizontal = false
+        view.addSubview(hexLabelScrollView)
+
+        octLabelScrollView = UIScrollView()
+        octLabelScrollView.alwaysBounceHorizontal = false
+        view.addSubview(octLabelScrollView)
+
         decimalLabel = UILabel()
         decimalLabel.textColor = textColor
         decimalLabel.text = "0"
         decimalLabel.textAlignment = .right
         decimalLabel.contentMode = .center
         decimalLabel.backgroundColor = UIColor(hex: 0x161616)
-        view.addSubview(decimalLabel)
+        decimalLabel.font = font
+        decimalLabelScrollView.addSubview(decimalLabel)
 
         binaryLabel = UILabel()
         binaryLabel.textColor = textColor
@@ -219,7 +243,8 @@ class MainViewController: UIViewController {
         binaryLabel.textAlignment = .right
         binaryLabel.contentMode = .center
         binaryLabel.backgroundColor = UIColor(hex: 0x161616)
-        view.addSubview(binaryLabel)
+        binaryLabel.font = font
+        binaryLabelScrollView.addSubview(binaryLabel)
 
         hexLabel = UILabel()
         hexLabel.textColor = textColor
@@ -227,7 +252,8 @@ class MainViewController: UIViewController {
         hexLabel.textAlignment = .right
         hexLabel.contentMode = .center
         hexLabel.backgroundColor = UIColor(hex: 0x161616)
-        view.addSubview(hexLabel)
+        hexLabel.font = font
+        hexLabelScrollView.addSubview(hexLabel)
 
         octLabel = UILabel()
         octLabel.textColor = textColor
@@ -235,7 +261,8 @@ class MainViewController: UIViewController {
         octLabel.textAlignment = .right
         octLabel.contentMode = .center
         octLabel.backgroundColor = UIColor(hex: 0x161616)
-        view.addSubview(octLabel)
+        octLabel.font = font
+        octLabelScrollView.addSubview(octLabel)
     }
 
     private func setupHexLetterButtons() {
@@ -245,7 +272,7 @@ class MainViewController: UIViewController {
         aDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         aDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         aDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        aDigitButton.titleLabel?.font = font
+        aDigitButton.setTitleFont(font, for: .normal)
         aDigitButton.tag = 10
         aDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         aDigitButton.adjustsImageWhenDisabled = false
@@ -257,7 +284,7 @@ class MainViewController: UIViewController {
         bDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         bDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         bDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        bDigitButton.titleLabel?.font = font
+        bDigitButton.setTitleFont(font, for: .normal)
         bDigitButton.tag = 11
         bDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(bDigitButton)
@@ -268,7 +295,7 @@ class MainViewController: UIViewController {
         cDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         cDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         cDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        cDigitButton.titleLabel?.font = font
+        cDigitButton.setTitleFont(font, for: .normal)
         cDigitButton.tag = 12
         cDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(cDigitButton)
@@ -279,7 +306,7 @@ class MainViewController: UIViewController {
         dDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         dDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         dDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        dDigitButton.titleLabel?.font = font
+        dDigitButton.setTitleFont(font, for: .normal)
         dDigitButton.tag = 13
         dDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(dDigitButton)
@@ -290,7 +317,7 @@ class MainViewController: UIViewController {
         eDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         eDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         eDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        eDigitButton.titleLabel?.font = font
+        eDigitButton.setTitleFont(font, for: .normal)
         eDigitButton.tag = 14
         eDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(eDigitButton)
@@ -301,7 +328,7 @@ class MainViewController: UIViewController {
         fDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         fDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         fDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        fDigitButton.titleLabel?.font = font
+        fDigitButton.setTitleFont(font, for: .normal)
         fDigitButton.tag = 15
         fDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(fDigitButton)
@@ -313,7 +340,7 @@ class MainViewController: UIViewController {
         periodDigitButton.setTitleColor(textColor, for: .normal)
         periodDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         periodDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        periodDigitButton.titleLabel?.font = font
+        periodDigitButton.setTitleFont(font, for: .normal)
         periodDigitButton.addTarget(self, action: #selector(periodDigitButtonAction), for: .touchUpInside)
         view.addSubview(periodDigitButton)*/
 
@@ -322,7 +349,7 @@ class MainViewController: UIViewController {
         zeroDigitButton.setTitleColor(textColor, for: .normal)
         zeroDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         zeroDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        zeroDigitButton.titleLabel?.font = font
+        zeroDigitButton.setTitleFont(font, for: .normal)
         zeroDigitButton.tag = 0
         zeroDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(zeroDigitButton)
@@ -332,7 +359,7 @@ class MainViewController: UIViewController {
         oneDigitButton.setTitleColor(textColor, for: .normal)
         oneDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         oneDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        oneDigitButton.titleLabel?.font = font
+        oneDigitButton.setTitleFont(font, for: .normal)
         oneDigitButton.tag = 1
         oneDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(oneDigitButton)
@@ -343,7 +370,7 @@ class MainViewController: UIViewController {
         twoDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         twoDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         twoDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        twoDigitButton.titleLabel?.font = font
+        twoDigitButton.setTitleFont(font, for: .normal)
         twoDigitButton.tag = 2
         twoDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(twoDigitButton)
@@ -354,7 +381,7 @@ class MainViewController: UIViewController {
         threeDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         threeDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         threeDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        threeDigitButton.titleLabel?.font = font
+        threeDigitButton.setTitleFont(font, for: .normal)
         threeDigitButton.tag = 3
         threeDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(threeDigitButton)
@@ -365,7 +392,7 @@ class MainViewController: UIViewController {
         fourDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         fourDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         fourDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        fourDigitButton.titleLabel?.font = font
+        fourDigitButton.setTitleFont(font, for: .normal)
         fourDigitButton.tag = 4
         fourDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(fourDigitButton)
@@ -376,7 +403,7 @@ class MainViewController: UIViewController {
         fiveDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         fiveDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         fiveDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        fiveDigitButton.titleLabel?.font = font
+        fiveDigitButton.setTitleFont(font, for: .normal)
         fiveDigitButton.tag = 5
         fiveDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(fiveDigitButton)
@@ -387,7 +414,7 @@ class MainViewController: UIViewController {
         sixDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         sixDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         sixDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        sixDigitButton.titleLabel?.font = font
+        sixDigitButton.setTitleFont(font, for: .normal)
         sixDigitButton.tag = 6
         sixDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(sixDigitButton)
@@ -398,7 +425,7 @@ class MainViewController: UIViewController {
         sevenDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         sevenDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         sevenDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        sevenDigitButton.titleLabel?.font = font
+        sevenDigitButton.setTitleFont(font, for: .normal)
         sevenDigitButton.tag = 7
         sevenDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(sevenDigitButton)
@@ -409,7 +436,7 @@ class MainViewController: UIViewController {
         eightDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         eightDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         eightDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        eightDigitButton.titleLabel?.font = font
+        eightDigitButton.setTitleFont(font, for: .normal)
         eightDigitButton.tag = 8
         eightDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(eightDigitButton)
@@ -420,7 +447,7 @@ class MainViewController: UIViewController {
         nineDigitButton.setBackgroundColor(backgroundColor, for: .normal)
         nineDigitButton.setBackgroundColor(buttonDisabledColor, for: .disabled)
         nineDigitButton.setBackgroundColor(baseButtonBackgroundColor, for: .highlighted)
-        nineDigitButton.titleLabel?.font = font
+        nineDigitButton.setTitleFont(font, for: .normal)
         nineDigitButton.tag = 9
         nineDigitButton.addTarget(self, action: #selector(digitButtonAction(_:)), for: .touchUpInside)
         view.addSubview(nineDigitButton)
@@ -431,7 +458,7 @@ class MainViewController: UIViewController {
         addButton.setTitle("+", for: .normal)
         addButton.setTitleColor(textColor, for: .normal)
         addButton.backgroundColor = UIColor(hex: 0x2872f4)
-        addButton.titleLabel?.font = font
+        addButton.setTitleFont(font, for: .normal)
         addButton.tag = 1
         addButton.addTarget(self, action: #selector(operationButtonAction(_:)), for: .touchUpInside)
         view.addSubview(addButton)
@@ -440,7 +467,7 @@ class MainViewController: UIViewController {
         subtractButton.setTitle("-", for: .normal)
         subtractButton.setTitleColor(textColor, for: .normal)
         subtractButton.backgroundColor = UIColor(hex: 0x2872f4)
-        subtractButton.titleLabel?.font = font
+        subtractButton.setTitleFont(font, for: .normal)
         subtractButton.tag = 2
         subtractButton.addTarget(self, action: #selector(operationButtonAction(_:)), for: .touchUpInside)
         view.addSubview(subtractButton)
@@ -449,7 +476,7 @@ class MainViewController: UIViewController {
         multiplyButton.setTitle("x", for: .normal)
         multiplyButton.setTitleColor(textColor, for: .normal)
         multiplyButton.backgroundColor = UIColor(hex: 0x2872f4)
-        multiplyButton.titleLabel?.font = font
+        multiplyButton.setTitleFont(font, for: .normal)
         multiplyButton.tag = 3
         multiplyButton.addTarget(self, action: #selector(operationButtonAction(_:)), for: .touchUpInside)
         view.addSubview(multiplyButton)
@@ -458,7 +485,7 @@ class MainViewController: UIViewController {
         divideButton.setTitle("/", for: .normal)
         divideButton.setTitleColor(textColor, for: .normal)
         divideButton.backgroundColor = UIColor(hex: 0x2872f4)
-        divideButton.titleLabel?.font = font
+        divideButton.setTitleFont(font, for: .normal)
         divideButton.tag = 4
         divideButton.addTarget(self, action: #selector(operationButtonAction(_:)), for: .touchUpInside)
         view.addSubview(divideButton)*/
@@ -467,7 +494,7 @@ class MainViewController: UIViewController {
         delButton.setTitle("DEL", for: .normal)
         delButton.setTitleColor(textColor, for: .normal)
         delButton.backgroundColor = UIColor(hex: 0xee382a)
-        delButton.titleLabel?.font = font
+        delButton.setTitleFont(font, for: .normal)
         delButton.addTarget(self, action: #selector(delButtonAction), for: .touchUpInside)
         view.addSubview(delButton)
 
@@ -475,7 +502,7 @@ class MainViewController: UIViewController {
         acButton.setTitle("AC", for: .normal)
         acButton.setTitleColor(textColor, for: .normal)
         acButton.backgroundColor = UIColor(hex: 0xee382a)
-        acButton.titleLabel?.font = font
+        acButton.setTitleFont(font, for: .normal)
         acButton.addTarget(self, action: #selector(acButtonAction), for: .touchUpInside)
         view.addSubview(acButton)
 
@@ -483,7 +510,7 @@ class MainViewController: UIViewController {
         equalsButton.setTitle("=", for: .normal)
         equalsButton.setTitleColor(textColor, for: .normal)
         equalsButton.backgroundColor = UIColor(hex: 0xee382a)
-        equalsButton.titleLabel?.font = font
+        equalsButton.setTitleFont(font, for: .normal)
         equalsButton.addTarget(self, action: #selector(equalsButtonAction), for: .touchUpInside)
         view.addSubview(equalsButton)*/
     }
@@ -502,32 +529,30 @@ class MainViewController: UIViewController {
     }
 
     @objc private func digitButtonAction(_ button: MDCButton) {
-        if operation == 0 {
-            firstNumber += String(button.tag)
-        } else {
-            secondNumber += String(button.tag)
+        var val = String(button.tag)
+        if val == "10" {
+            val = "A"
+        } else if val == "11" {
+            val = "B"
+        } else if val == "12" {
+            val = "C"
+        } else if val == "13" {
+            val = "D"
+        } else if val == "14" {
+            val = "E"
+        } else if val == "15" {
+            val = "F"
         }
+        currentNumber += val
         updateLabels()
-    }
-
-    @objc private func periodDigitButtonAction() {
-        if operation == 0 {
-            firstNumber += "."
-        } else {
-            secondNumber += "."
-        }
-        updateLabels()
-    }
-
-    @objc private func operationButtonAction(_ button: MDCButton) {
-
+        formatBinaryString("11010101100")
     }
 
     @objc private func delButtonAction() {
-        if operation == 0 {
-            firstNumber.popLast()
+        if currentNumber.count == 1 {
+            currentNumber = "0"
         } else {
-            secondNumber.popLast()
+            currentNumber.popLast()
         }
         updateLabels()
     }
@@ -536,19 +561,21 @@ class MainViewController: UIViewController {
         resetEverything()
     }
 
-    @objc private func equalsButtonAction() {
-        print("=")
-    }
-
     private func updateLabels() {
         let errorText: String = "Value too big"
-        let labelText: String = (operation == 0) ? firstNumber : secondNumber
-        let isDecimalTooBig: Bool =  Double(getDecimalText(labelText))! > Double(Int.max)
+        let isDecimalTooBig: Bool =  Double(getDecimalText(currentNumber))! > Double(Int.max)
 
-        decimalLabel.text = (isDecimalTooBig) ? errorText : getDecimalText(labelText)
-        binaryLabel.text = (isDecimalTooBig) ? errorText : getBinaryText(labelText)
-        hexLabel.text = (isDecimalTooBig) ? errorText : getHexText(labelText)
-        octLabel.text = (isDecimalTooBig) ? errorText : getOctText(labelText)
+        let decimalText = getDecimalText(currentNumber)
+        if activeBase != 0 {
+            let endIdx = decimalText.index(decimalText.endIndex, offsetBy: -2)
+            decimalText.substring(from: endIdx)
+        }
+        decimalLabel.text = (isDecimalTooBig) ? errorText : decimalText
+        binaryLabel.text = (isDecimalTooBig) ? errorText : formatBinaryString(getBinaryText(currentNumber))
+        hexLabel.text = (isDecimalTooBig) ? errorText : getHexText(currentNumber)
+        octLabel.text = (isDecimalTooBig) ? errorText : getOctText(currentNumber)
+
+        viewDidLayoutSubviews()
     }
 
     private func getDecimalText(_ text: String) -> String {
@@ -643,13 +670,43 @@ class MainViewController: UIViewController {
     }
 
     private func resetEverything() {
-        firstNumber = ""
-        secondNumber = ""
+        currentNumber = ""
         operation = 0
         decimalLabel.text = "0"
         binaryLabel.text = "0"
         hexLabel.text = "0"
         octLabel.text = "0"
+
+        viewDidLayoutSubviews()
+    }
+    
+    private func formatBinaryString(_ str: String) -> String {
+        var count = 0
+        var arr = Array(str)
+        var res = [Character]()
+        for i in stride(from: str.count-1, to: -1, by: -1) {
+            res.insert(arr[i], at: 0)
+            count += 1
+            if count == 4 && i != 0 {
+                res.insert("-", at: 0)
+                count = 0
+            }
+        }
+        var str2 = ""
+        for i in res {
+            str2 += String(i)
+        }
+        return str2
+    }
+}
+
+extension MainViewController: GADBannerViewDelegate {
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("Banner loaded successfully")
     }
 
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+        print("Fail to receive ads")
+        print(error)
+    }
 }

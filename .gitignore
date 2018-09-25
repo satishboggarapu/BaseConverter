@@ -6,7 +6,7 @@
 .DS_Store
 GoogleService-Info.plist
 Pods/
-SafeTravels/Main/Keys.swift
+BaseConverter/Keys.swift
 
 ## Build generated
 build/

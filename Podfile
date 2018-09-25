@@ -6,8 +6,10 @@ target 'BaseConverter' do
   use_frameworks!
 
   # Pods for BaseConverter
-  pod 'PinLayout'
   pod 'MaterialComponents'
+  pod 'PinLayout'
+  pod 'Firebase/Core'
+  pod 'Google-Mobile-Ads-SDK'
 
   target 'BaseConverterTests' do
     inherit! :search_paths
