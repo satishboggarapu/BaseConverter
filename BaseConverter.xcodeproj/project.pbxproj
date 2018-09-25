@@ -16,6 +16,7 @@
 		192E45E55C021C0821990A57 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192E44EEEA2C9CFFF2EF53E4 /* MainViewController.swift */; };
 		192E477E4ED03A074DA47523 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192E4C62BC3C4D314D680B19 /* Helper.swift */; };
 		192E4A2B8AEEB89B37A8980C /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192E4549E36C251E52702EE6 /* UIColorExtensions.swift */; };
+		192E4D8E0352EC7E14327327 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192E48975AC46C0831970543 /* StringExtensions.swift */; };
 		3DCC9EF2F6B49E4E56381D0D /* Pods_BaseConverter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2867C3F8D9868BB4BB301D58 /* Pods_BaseConverter.framework */; };
 		7B7A7F83CD6BAF32FAFCB554 /* Pods_BaseConverterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FEFC01460C2749B812C27B /* Pods_BaseConverterUITests.framework */; };
 		EF0719DB22482C87F39B65ED /* Pods_BaseConverterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1822C2FEEA2FA46CCB46C199 /* Pods_BaseConverterTests.framework */; };
@@ -56,6 +57,7 @@
 		1822C2FEEA2FA46CCB46C199 /* Pods_BaseConverterTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaseConverterTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		192E44EEEA2C9CFFF2EF53E4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		192E4549E36C251E52702EE6 /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
+		192E48975AC46C0831970543 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		192E4C62BC3C4D314D680B19 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		27FEFC01460C2749B812C27B /* Pods_BaseConverterUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaseConverterUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2867C3F8D9868BB4BB301D58 /* Pods_BaseConverter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaseConverter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				192E4549E36C251E52702EE6 /* UIColorExtensions.swift */,
+				192E48975AC46C0831970543 /* StringExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -337,10 +340,22 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BaseConverter/Pods-BaseConverter-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MDFInternationalization/MDFInternationalization.framework",
+				"${BUILT_PRODUCTS_DIR}/MDFTextAccessibility/MDFTextAccessibility.framework",
+				"${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework",
+				"${BUILT_PRODUCTS_DIR}/MotionAnimator/MotionAnimator.framework",
+				"${BUILT_PRODUCTS_DIR}/MotionInterchange/MotionInterchange.framework",
+				"${BUILT_PRODUCTS_DIR}/MotionTransitioning/MotionTransitioning.framework",
 				"${BUILT_PRODUCTS_DIR}/PinLayout/PinLayout.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MDFInternationalization.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MDFTextAccessibility.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MaterialComponents.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MotionAnimator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MotionInterchange.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MotionTransitioning.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PinLayout.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -473,6 +488,7 @@
 				192E45E55C021C0821990A57 /* MainViewController.swift in Sources */,
 				192E477E4ED03A074DA47523 /* Helper.swift in Sources */,
 				192E4A2B8AEEB89B37A8980C /* UIColorExtensions.swift in Sources */,
+				192E4D8E0352EC7E14327327 /* StringExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,10 +666,7 @@
 				DEVELOPMENT_TEAM = TEGLEE3UYA;
 				INFOPLIST_FILE = BaseConverter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.satishboggarapu.apps.BaseConverter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -670,10 +683,7 @@
 				DEVELOPMENT_TEAM = TEGLEE3UYA;
 				INFOPLIST_FILE = BaseConverter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.satishboggarapu.apps.BaseConverter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -690,11 +700,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TEGLEE3UYA;
 				INFOPLIST_FILE = BaseConverterTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.satishboggarapu.apps.BaseConverterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -712,11 +718,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TEGLEE3UYA;
 				INFOPLIST_FILE = BaseConverterTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.satishboggarapu.apps.BaseConverterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -733,11 +735,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TEGLEE3UYA;
 				INFOPLIST_FILE = BaseConverterUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.satishboggarapu.apps.BaseConverterUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -754,11 +752,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TEGLEE3UYA;
 				INFOPLIST_FILE = BaseConverterUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.satishboggarapu.apps.BaseConverterUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

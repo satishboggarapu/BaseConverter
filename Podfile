@@ -7,6 +7,7 @@ target 'BaseConverter' do
 
   # Pods for BaseConverter
   pod 'PinLayout'
+  pod 'MaterialComponents'
 
   target 'BaseConverterTests' do
     inherit! :search_paths
