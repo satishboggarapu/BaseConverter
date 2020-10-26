@@ -73,27 +73,27 @@ class MainViewController: UIViewController {
 
         toggleBaseButtons()
         toggleDigitButtons()
-
-        let num = "1.1"
-        print(num.binaryToDecimal)
+        
+        adBannerView.load(GADRequest())
 
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let rowHeight: CGFloat = (view.frame.height - Helper.getStatusBarHeight() - 16) / 9.0
+        let navigationBarHeight: CGFloat = (navigationController?.navigationBar.frame.height)!
+        let rowHeight: CGFloat = (view.frame.height - Helper.getStatusBarHeight() - navigationBarHeight - 16) / 8
         let sixButtonRowWidth: CGFloat = (view.frame.width - 10) / 6.0
         let fiveButtonRowWidth: CGFloat = (view.frame.width - 8) / 5.0
         let zeroButtonWidth: CGFloat = fiveButtonRowWidth * 3 + 2
 
         // base buttons
-        decimalButton.pin.left(to: view.edge.left).top(to: view.edge.top).marginTop(Helper.getStatusBarHeight()).width(rowHeight).height(rowHeight).marginBottom(1)
+        decimalButton.pin.left(to: view.edge.left).top(to: view.edge.top).marginTop(view.safeAreaInsets.top).width(rowHeight).height(rowHeight).marginBottom(1)
         binaryButton.pin.left(to: view.edge.left).top(to: decimalButton.edge.bottom).width(rowHeight).height(rowHeight).marginTop(1).marginBottom(1)
         hexButton.pin.left(to: view.edge.left).top(to: binaryButton.edge.bottom).width(rowHeight).height(rowHeight).marginTop(1).marginBottom(1)
         octButton.pin.left(to: view.edge.left).top(to: hexButton.edge.bottom).width(rowHeight).height(rowHeight).marginTop(1).marginBottom(1)
         // base labels
-        decimalLabelScrollView.pin.left(to: decimalButton.edge.right).right(to: view.edge.right).top(to: view.edge.top).height(rowHeight).marginRight(4).marginTop(Helper.getStatusBarHeight())
+        decimalLabelScrollView.pin.left(to: decimalButton.edge.right).right(to: view.edge.right).top(to: decimalButton.edge.top).height(rowHeight).marginRight(4)
         binaryLabelScrollView.pin.left(to: binaryButton.edge.right).right(to: view.edge.right).top(to: decimalLabelScrollView.edge.bottom).height(rowHeight).marginRight(4)
         hexLabelScrollView.pin.left(to: hexButton.edge.right).right(to: view.edge.right).top(to: binaryLabelScrollView.edge.bottom).height(rowHeight).marginRight(4)
         octLabelScrollView.pin.left(to: octButton.edge.right).right(to: view.edge.right).top(to: hexLabelScrollView.edge.bottom).height(rowHeight).marginRight(4)
@@ -153,7 +153,24 @@ class MainViewController: UIViewController {
     }
 
     private func setupNavigationBar() {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.navigationBar.barStyle = .blackOpaque
+        navigationController?.navigationBar.isTranslucent = false
+        
+        let titleLabel = UILabel()
+        titleLabel.text = "Base Converter"
+        titleLabel.font = UIFont(name: "Avenir-Black", size: 22)!
+        titleLabel.textColor = .white
+        titleLabel.textAlignment = .center
+        titleLabel.adjustsFontSizeToFitWidth = true
+        navigationItem.titleView = titleLabel
+        
+        // Info Button
+        let infoButton = UIButton(type: .custom)
+        infoButton.setImage(Icon.info_24, for: .normal)
+        infoButton.imageView?.tintColor = .white
+        infoButton.addTarget(self, action: #selector(infoButtonAction), for: .touchUpInside)
+        
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: infoButton)]
     }
 
     private func setupAdBanner() {
@@ -513,6 +530,10 @@ class MainViewController: UIViewController {
         equalsButton.setTitleFont(font, for: .normal)
         equalsButton.addTarget(self, action: #selector(equalsButtonAction), for: .touchUpInside)
         view.addSubview(equalsButton)*/
+    }
+    
+    @objc private func infoButtonAction() {
+        
     }
 
     @objc private func baseButtonAction(_ button: MDCButton) {

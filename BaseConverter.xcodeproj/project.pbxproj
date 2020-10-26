@@ -13,11 +13,12 @@
 		10394019214F345000E880EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10394017214F345000E880EF /* LaunchScreen.storyboard */; };
 		10394024214F345000E880EF /* BaseConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10394023214F345000E880EF /* BaseConverterTests.swift */; };
 		1039402F214F345000E880EF /* BaseConverterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1039402E214F345000E880EF /* BaseConverterUITests.swift */; };
+		107581B8250E7A520013FB0D /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107581B7250E7A520013FB0D /* Icon.swift */; };
+		10EC9F7C2164FAB000390AA8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10EC9F7B2164FAB000390AA8 /* GoogleService-Info.plist */; };
 		192E45E55C021C0821990A57 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192E44EEEA2C9CFFF2EF53E4 /* MainViewController.swift */; };
 		192E477E4ED03A074DA47523 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192E4C62BC3C4D314D680B19 /* Helper.swift */; };
 		192E4A2B8AEEB89B37A8980C /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192E4549E36C251E52702EE6 /* UIColorExtensions.swift */; };
 		192E4D8E0352EC7E14327327 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192E48975AC46C0831970543 /* StringExtensions.swift */; };
-		192E4E061453DA77CD3583D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 192E4159F1D58FD2F0F958A7 /* GoogleService-Info.plist */; };
 		192E4FBC3BA88F6C5B9BBE0D /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192E4E5A1EBC8E1D272CE14F /* Keys.swift */; };
 		3DCC9EF2F6B49E4E56381D0D /* Pods_BaseConverter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2867C3F8D9868BB4BB301D58 /* Pods_BaseConverter.framework */; };
 		7B7A7F83CD6BAF32FAFCB554 /* Pods_BaseConverterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FEFC01460C2749B812C27B /* Pods_BaseConverterUITests.framework */; };
@@ -55,9 +56,10 @@
 		1039402A214F345000E880EF /* BaseConverterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BaseConverterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1039402E214F345000E880EF /* BaseConverterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConverterUITests.swift; sourceTree = "<group>"; };
 		10394030214F345000E880EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		107581B7250E7A520013FB0D /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
+		10EC9F7B2164FAB000390AA8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		12EA68E83574060AAA4E3A7B /* Pods-BaseConverterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaseConverterTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BaseConverterTests/Pods-BaseConverterTests.release.xcconfig"; sourceTree = "<group>"; };
 		1822C2FEEA2FA46CCB46C199 /* Pods_BaseConverterTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaseConverterTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		192E4159F1D58FD2F0F958A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.info; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		192E44EEEA2C9CFFF2EF53E4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		192E4549E36C251E52702EE6 /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		192E48975AC46C0831970543 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -125,15 +127,16 @@
 			isa = PBXGroup;
 			children = (
 				1039400E214F344F00E880EF /* AppDelegate.swift */,
-				10394012214F344F00E880EF /* Main.storyboard */,
-				10394015214F345000E880EF /* Assets.xcassets */,
-				10394017214F345000E880EF /* LaunchScreen.storyboard */,
-				1039401A214F345000E880EF /* Info.plist */,
 				192E44EEEA2C9CFFF2EF53E4 /* MainViewController.swift */,
 				192E4C62BC3C4D314D680B19 /* Helper.swift */,
 				192E460082E627CB3BBE4F63 /* Extensions */,
-				192E4159F1D58FD2F0F958A7 /* GoogleService-Info.plist */,
 				192E4E5A1EBC8E1D272CE14F /* Keys.swift */,
+				10394012214F344F00E880EF /* Main.storyboard */,
+				10394017214F345000E880EF /* LaunchScreen.storyboard */,
+				10394015214F345000E880EF /* Assets.xcassets */,
+				1039401A214F345000E880EF /* Info.plist */,
+				10EC9F7B2164FAB000390AA8 /* GoogleService-Info.plist */,
+				107581B7250E7A520013FB0D /* Icon.swift */,
 			);
 			path = BaseConverter;
 			sourceTree = "<group>";
@@ -302,9 +305,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				10394019214F345000E880EF /* LaunchScreen.storyboard in Resources */,
+				10EC9F7C2164FAB000390AA8 /* GoogleService-Info.plist in Resources */,
 				10394016214F345000E880EF /* Assets.xcassets in Resources */,
 				10394014214F344F00E880EF /* Main.storyboard in Resources */,
-				192E4E061453DA77CD3583D2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,6 +500,7 @@
 			files = (
 				1039400F214F344F00E880EF /* AppDelegate.swift in Sources */,
 				192E45E55C021C0821990A57 /* MainViewController.swift in Sources */,
+				107581B8250E7A520013FB0D /* Icon.swift in Sources */,
 				192E477E4ED03A074DA47523 /* Helper.swift in Sources */,
 				192E4A2B8AEEB89B37A8980C /* UIColorExtensions.swift in Sources */,
 				192E4D8E0352EC7E14327327 /* StringExtensions.swift in Sources */,
@@ -678,7 +682,10 @@
 				DEVELOPMENT_TEAM = TEGLEE3UYA;
 				INFOPLIST_FILE = BaseConverter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.satishboggarapu.apps.BaseConverter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -695,7 +702,10 @@
 				DEVELOPMENT_TEAM = TEGLEE3UYA;
 				INFOPLIST_FILE = BaseConverter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.satishboggarapu.apps.BaseConverter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -712,7 +722,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TEGLEE3UYA;
 				INFOPLIST_FILE = BaseConverterTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.satishboggarapu.apps.BaseConverterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -730,7 +744,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TEGLEE3UYA;
 				INFOPLIST_FILE = BaseConverterTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.satishboggarapu.apps.BaseConverterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -747,7 +765,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TEGLEE3UYA;
 				INFOPLIST_FILE = BaseConverterUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.satishboggarapu.apps.BaseConverterUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -764,7 +786,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TEGLEE3UYA;
 				INFOPLIST_FILE = BaseConverterUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.satishboggarapu.apps.BaseConverterUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

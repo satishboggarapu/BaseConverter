@@ -10,5 +10,7 @@ public class Helper {
     public static func getStatusBarHeight() -> CGFloat {
         return UIApplication.shared.statusBarFrame.height
     }
+    
+    
 
 }
