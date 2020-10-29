@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         FirebaseApp.configure()
-        GADMobileAds.configure(withApplicationID: ADMOB_APP_ID)
+        // Initialize the Google Mobile Ads SDK
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
 
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
 

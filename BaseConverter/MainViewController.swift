@@ -10,6 +10,7 @@ import UIKit
 import PinLayout
 import MaterialComponents
 import GoogleMobileAds
+import FirebaseAuth
 
 class MainViewController: UIViewController {
 
@@ -52,6 +53,9 @@ class MainViewController: UIViewController {
     private var acButton: MDCButton!
     // ad view
     var adBannerView: GADBannerView!
+    
+    private var firebaseEvents: FirebaseEvents!
+    private var storeReviewManager: StoreReviewManager!
 
     //MARK: Attributes
 
@@ -70,12 +74,18 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
 
         setupView()
+        
+        // Firebase SignIn using AnonymousSignIn
+        Auth.auth().signInAnonymously()
+        
+        firebaseEvents = FirebaseEvents()
+        storeReviewManager = StoreReviewManager()
 
         toggleBaseButtons()
         toggleDigitButtons()
 
-        let num = "1.1"
-        print(num.binaryToDecimal)
+        // Load banner ad
+        adBannerView.load(GADRequest())
 
     }
 
@@ -526,9 +536,16 @@ class MainViewController: UIViewController {
         toggleBaseButtons()
         toggleDigitButtons()
         resetEverything()
+        
+        if let buttonTitle = button.title(for: .normal) {
+            firebaseEvents.logActiveBase(base: buttonTitle)
+            print(buttonTitle)
+        }
+        storeReviewManager.askForReview(navigationController)
     }
 
     @objc private func digitButtonAction(_ button: MDCButton) {
+        firebaseEvents.logNumberAddedToOperation()
         var val = String(button.tag)
         if val == "10" {
             val = "A"
@@ -545,7 +562,6 @@ class MainViewController: UIViewController {
         }
         currentNumber += val
         updateLabels()
-        formatBinaryString("11010101100")
     }
 
     @objc private func delButtonAction() {
@@ -682,7 +698,7 @@ class MainViewController: UIViewController {
     
     private func formatBinaryString(_ str: String) -> String {
         var count = 0
-        var arr = Array(str)
+        let arr = Array(str)
         var res = [Character]()
         for i in stride(from: str.count-1, to: -1, by: -1) {
             res.insert(arr[i], at: 0)
@@ -701,12 +717,15 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: GADBannerViewDelegate {
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
-        print("Banner loaded successfully")
+    public func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        firebaseEvents.logAdLoaded()
     }
 
-    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
-        print("Fail to receive ads")
-        print(error)
+    public func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+        firebaseEvents.logAdFailedToLoad()
+    }
+
+    public func adViewWillPresentScreen(_ bannerView: GADBannerView) {
+        firebaseEvents.logAdClick()
     }
 }

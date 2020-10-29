@@ -9,6 +9,8 @@ target 'BaseConverter' do
   pod 'MaterialComponents'
   pod 'PinLayout'
   pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Analytics'
   pod 'Google-Mobile-Ads-SDK'
 
   target 'BaseConverterTests' do
